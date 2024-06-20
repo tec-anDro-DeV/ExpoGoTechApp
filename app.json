@@ -1,0 +1,77 @@
+{
+  "expo": {
+    "name": "UrbanGraffiti",
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
+    },
+    "slug": "urban-grafitti-tech-app",
+    "privacy": "public",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "android": {
+      "package": "com.businesswisesolutions.UrbanGraffiti",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBGkMG-nj0pgK1ruZRZUdLW-7SgSkmqQfQ"
+        }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ]
+    },
+    "version": "1.19",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/b9f848f4-c417-4df9-99a6-5f96e91e66e7"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The reason the app needs access to the photos is to attach site examples of what needs to be corrected to achieve ADA compliance.",
+          "cameraPermission": "The reason the app needs camera access is to take job site photos to complete an ADA compliance report."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Arcor App to access your photos.",
+          "savePhotosPermission": "Allow Arcor App to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.businesswisesolutions.UrbanGraffiti",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBGkMG-nj0pgK1ruZRZUdLW-7SgSkmqQfQ"
+      },
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow Arcor App to access your photos.",
+        "NSPhotoLibraryAddUsageDescription": "Allow Arcor App to save photos."
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b9f848f4-c417-4df9-99a6-5f96e91e66e7"
+      }
+    },
+    "runtimeVersion": "1.0.0"
+  }
+}

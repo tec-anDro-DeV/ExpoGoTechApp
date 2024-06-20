@@ -1,0 +1,18 @@
+diff --git a/node_modules/react-native/index.js b/node_modules/react-native/index.js
+index f556fa3..3111ad9 100644
+--- a/node_modules/react-native/index.js
++++ b/node_modules/react-native/index.js
+@@ -746,12 +746,7 @@ if (__DEV__) {
+   Object.defineProperty(module.exports, 'AsyncStorage', {
+     configurable: true,
+     get() {
+-      invariant(
+-        false,
+-        'AsyncStorage has been removed from react-native core. ' +
+-          "It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. " +
+-          'See https://github.com/react-native-async-storage/async-storage',
+-      );
++      return require("@react-native-async-storage/async-storage").default
+     },
+   });
+   /* $FlowFixMe[prop-missing] This is intentional: Flow will error when

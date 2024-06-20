@@ -44,6 +44,9 @@ export default class Home extends Component {
       tech_connected: '',
       selectedMarkerIndex: 0,
       new_params: [],
+      visible_modal: false,
+      visible_modal2: false,
+      text_modal: 'Updating ...',
     };
     this.state = {
       markers: [],
@@ -139,7 +142,8 @@ export default class Home extends Component {
 
   _getOrders = async () => {
     //console.log("test1");
-
+    this.setState({ text_modal: 'Updating ...' });
+    this.setState({ visible_modal: true });
     const tech_connected_ = await AsyncStorage.getItem('tech_connected');
     this.setState({ tech_connected: tech_connected_ });
 
@@ -178,6 +182,7 @@ export default class Home extends Component {
     this.setState({ markers: a });
 
     //console.log(a);
+    this.setState({ visible_modal: false });
   };
 
   _getLocationAsync = async () => {
@@ -619,6 +624,34 @@ export default class Home extends Component {
             </View>
           )}
         </Drawer>
+        <Modal animationType='slide' transparent={true} visible={this.state.visible_modal}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                width: 300,
+                height: 150,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+                elevation: 6,
+              }}
+            >
+              <Text style={{ textAlign: 'center', marginTop: 10 }}>{this.state.text_modal}</Text>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     );
   }

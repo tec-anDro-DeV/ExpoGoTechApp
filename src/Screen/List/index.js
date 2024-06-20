@@ -167,12 +167,12 @@ export default class componentName extends Component {
           this.setState({ is_conected: state.isConnected.toString() });
         }
 
-        this._getOrders();
+        // this._getOrders();
       });
 
       this.set_btn();
       this.set_page();
-      this.reload_orders('page');
+      // this.reload_orders('page');
       //const { params } = this.props.navigation.state;
       if (this.state.new_params) {
         if (this.state.new_params.update == '1') {
@@ -236,7 +236,7 @@ export default class componentName extends Component {
   };
 
   componentWillUnmount() {
-    this.focusListener();
+    //this.focusListener();
   }
 
   _getLocationAsync = async () => {
@@ -885,7 +885,6 @@ export default class componentName extends Component {
       current_completed_key: -1,
       current_survey_key: -1,
     });
-
     this._getOrders_update();
   };
 
@@ -941,7 +940,7 @@ export default class componentName extends Component {
     const token = await AsyncStorage.getItem('userToken');
     const local_orders = await AsyncStorage.getItem('orders_local_3');
 
-    console.log('local:', local_orders);
+    //console.log('local:', local_orders);
     let data_response = '';
 
     try {
@@ -1053,6 +1052,8 @@ export default class componentName extends Component {
   };
 
   _getOrders = async () => {
+    this.setState({ text_modal: 'Updating ...' });
+    this.setState({ visible_modal: true });
     const tech_connected_ = await AsyncStorage.getItem('tech_connected');
     this.setState({ tech_connected: tech_connected_ });
 
@@ -1064,7 +1065,7 @@ export default class componentName extends Component {
     const token = await AsyncStorage.getItem('userToken');
     const local_orders = await AsyncStorage.getItem('orders_local_3');
 
-    console.log('local:', local_orders);
+    //console.log('local:', local_orders);
     let data_response = '';
     if (local_orders == null) {
       data_response = await API.get_orders2(user_id, token, this.state.location.coords.latitude, this.state.location.coords.longitude);
@@ -1163,6 +1164,7 @@ export default class componentName extends Component {
       this.setState({ markers3: [] });
     }
     //console.log(c);
+    this.setState({ visible_modal: false });
   };
 
   open_details = async (order_id, key_order, type_order) => {

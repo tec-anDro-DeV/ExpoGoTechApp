@@ -28,6 +28,7 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      props: props,
       name: '',
       count: 0,
       order_id: '',
@@ -83,7 +84,7 @@ export default class Home extends Component {
     new_params = JSON.parse(new_params);
     this.setState({ new_params: new_params });
 
-    this.firebase_func();
+    //this.firebase_func();
 
     //console.log('hi2');
     if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -94,11 +95,17 @@ export default class Home extends Component {
       this._getLocationAsync();
     }
     //console.log("enter");
-    this._getOrders();
+
+    // this._getOrders();
     this.set_page();
 
     const { navigation } = this.props;
+    this.setState({ markers: this.props.route.params.markers });
+    const tech_connected_ = await AsyncStorage.getItem('tech_connected');
+    this.setState({ tech_connected: tech_connected_ });
 
+    const user = await AsyncStorage.getItem('userName');
+    this.setState({ username: user });
     this.focusListener = navigation.addListener('focus', async () => {
       let new_params = await AsyncStorage.getItem('current_params');
       new_params = JSON.parse(new_params);
@@ -109,7 +116,7 @@ export default class Home extends Component {
 
       if (this.state.new_params) {
         if (this.state.new_params.update == '1') {
-          this._getOrders();
+          // this._getOrders();
           this.setState({
             forceRefresh: Math.floor(Math.random() * 100),
             duration: false,
@@ -128,7 +135,7 @@ export default class Home extends Component {
       .database()
       .ref('tech/' + user_id)
       .on('value', (data) => {
-        this._getOrders();
+        //this._getOrders();
         this.setState({
           forceRefresh: Math.floor(Math.random() * 100),
           duration: false,
@@ -140,50 +147,50 @@ export default class Home extends Component {
     await AsyncStorage.setItem('page', 'map');
   };
 
-  _getOrders = async () => {
-    //console.log("test1");
-    this.setState({ text_modal: 'Updating ...' });
-    this.setState({ visible_modal: true });
-    const tech_connected_ = await AsyncStorage.getItem('tech_connected');
-    this.setState({ tech_connected: tech_connected_ });
+  // _getOrders = async () => {
+  //   //console.log("test1");
+  //   this.setState({ text_modal: 'Updating ...' });
+  //   this.setState({ visible_modal: true });
+  //   const tech_connected_ = await AsyncStorage.getItem('tech_connected');
+  //   this.setState({ tech_connected: tech_connected_ });
 
-    const user = await AsyncStorage.getItem('userName');
-    this.setState({ username: user });
+  //   const user = await AsyncStorage.getItem('userName');
+  //   this.setState({ username: user });
 
-    const user_id = await AsyncStorage.getItem('user_id');
-    const token = await AsyncStorage.getItem('userToken');
-    let data_response = await API.get_orders2(user_id, token, 0, 0);
-    //console.log("test");
-    //console.log(user_id);
-    //console.log(token);
-    //console.log(data_response);
+  //   const user_id = await AsyncStorage.getItem('user_id');
+  //   const token = await AsyncStorage.getItem('userToken');
+  //   let data_response = await API.get_orders2(user_id, token, 0, 0);
+  //   //console.log("test");
+  //   //console.log(user_id);
+  //   //console.log(token);
+  //   //console.log(data_response);
 
-    let a;
-    a = this.state.markers.splice();
-    let i = 0;
-    if (data_response.orders) {
-      for (let userObject of data_response.orders) {
-        //console.log(userObject.address);
+  //   let a;
+  //   a = this.state.markers.splice();
+  //   let i = 0;
+  //   if (data_response.orders) {
+  //     for (let userObject of data_response.orders) {
+  //       //console.log(userObject.address);
 
-        a[i] = {
-          title: userObject.address,
-          order_id: userObject.order_id,
-          street: userObject.street,
-          city: userObject.city,
-          coordinates: {
-            latitude: Number(userObject.address_lat),
-            longitude: Number(userObject.address_long),
-          },
-        };
-        i++;
-      }
-    }
+  //       a[i] = {
+  //         title: userObject.address,
+  //         order_id: userObject.order_id,
+  //         street: userObject.street,
+  //         city: userObject.city,
+  //         coordinates: {
+  //           latitude: Number(userObject.address_lat),
+  //           longitude: Number(userObject.address_long),
+  //         },
+  //       };
+  //       i++;
+  //     }
+  //   }
 
-    this.setState({ markers: a });
+  //   this.setState({ markers: a });
 
-    //console.log(a);
-    this.setState({ visible_modal: false });
-  };
+  //   //console.log(a);
+  //   this.setState({ visible_modal: false });
+  // };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -214,7 +221,6 @@ export default class Home extends Component {
       let resp = await fetch('https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyBGkMG-nj0pgK1ruZRZUdLW-7SgSkmqQfQ&origin=' + origin + '&destination=' + destination);
       // console.log('https://maps.googleapis.com/maps/api/directions/json?key=AIzaSyBGkMG-nj0pgK1ruZRZUdLW-7SgSkmqQfQ&origin='+origin+'&destination='+destination);
       let respJson = await resp.json();
-      //console.log(respJson);
       this.setState({ duration: respJson.routes[0].legs[0].duration.text });
       this.setState({ distance: respJson.routes[0].legs[0].distance.text });
     } catch (error) {}
@@ -236,7 +242,9 @@ export default class Home extends Component {
       page: "map"
     });
 */
+
     let order_id = this.state.order_id;
+
     let order_key = this.state.order_key;
     let new_params = {
       order_id: order_id,
@@ -624,7 +632,7 @@ export default class Home extends Component {
             </View>
           )}
         </Drawer>
-        <Modal animationType='slide' transparent={true} visible={this.state.visible_modal}>
+        {/* <Modal animationType='slide' transparent={true} visible={this.state.visible_modal}>
           <View
             style={{
               flex: 1,
@@ -651,7 +659,7 @@ export default class Home extends Component {
               <Text style={{ textAlign: 'center', marginTop: 10 }}>{this.state.text_modal}</Text>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       </SafeAreaView>
     );
   }

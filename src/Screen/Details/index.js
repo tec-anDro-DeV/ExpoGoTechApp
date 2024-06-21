@@ -27,7 +27,7 @@ import Button from '../../Component/Button/index';
 import * as ImagePicker from 'expo-image-picker';
 import Color from '../../Config/Color';
 import style from './style';
-import API from '../../utils/api';
+import API, { BASEURL } from '../../utils/api';
 import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
 import * as Location from 'expo-location';
@@ -164,7 +164,7 @@ export default class componentName extends Component {
     try {
       let downloadSizeInBits = 12000000;
       let startTime = new Date().getTime();
-      await fetch('https://urbangraffitilogin.com/');
+      await fetch(BASEURL);
       let endTime = new Date().getTime();
       let duration = (endTime - startTime) / 1000;
       speed = downloadSizeInBits / (1024 * 1024 * duration);
@@ -178,6 +178,7 @@ export default class componentName extends Component {
     speed = parseFloat(speed);
 
     let new_params = await AsyncStorage.getItem('current_params');
+    console.log('Detail Data:    ', new_params);
     new_params = JSON.parse(new_params);
     this.setState({ new_params: new_params });
 
@@ -478,7 +479,7 @@ export default class componentName extends Component {
       for (let before_image of data_response.before_images) {
         console.log(before_image);
         let new_object = {
-          route: 'http://urbangraffitilogin.com/uploads/' + before_image.image_url,
+          route: BASEURL + 'uploads/' + before_image.image_url,
           type: 'uploaded',
         };
         var joined = this.state.b_image.concat(new_object);
@@ -513,7 +514,7 @@ export default class componentName extends Component {
       for (let after_image of data_response.after_images) {
         console.log(after_image);
         let new_object = {
-          route: 'http://urbangraffitilogin.com/uploads/' + after_image.image_url,
+          route: BASEURL + '/uploads/' + after_image.image_url,
           type: 'uploaded',
         };
         var joined = this.state.a_image.concat(new_object);

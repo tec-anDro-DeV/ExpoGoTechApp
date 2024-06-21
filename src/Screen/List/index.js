@@ -25,7 +25,7 @@ import SideBar from '../../Screen/SideMenu/index';
 import Button from '../../Component/Button/index';
 import Color from '../../Config/Color';
 import style from './style';
-import API from '../../utils/api';
+import API, { BASEURL } from '../../utils/api';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
@@ -77,7 +77,7 @@ export default class componentName extends Component {
   }
   async componentDidMount() {
     //BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
-
+    console.log('URL----------', BASEURL);
     BackHandler.addEventListener('backPress', this.handleBackButton);
 
     let new_params = await AsyncStorage.getItem('current_params');
@@ -89,7 +89,7 @@ export default class componentName extends Component {
     try {
       let downloadSizeInBits = 12000000;
       let startTime = new Date().getTime();
-      await fetch('https://urbangraffitilogin.com/');
+      await fetch(BASEURL);
       let endTime = new Date().getTime();
       let duration = (endTime - startTime) / 1000;
       speed = downloadSizeInBits / (1024 * 1024 * duration);
@@ -138,7 +138,7 @@ export default class componentName extends Component {
       try {
         let downloadSizeInBits = 12000000;
         let startTime = new Date().getTime();
-        await fetch('https://urbangraffitilogin.com/');
+        await fetch(BASEURL);
         let endTime = new Date().getTime();
         let duration = (endTime - startTime) / 1000;
         speed = downloadSizeInBits / (1024 * 1024 * duration);
@@ -278,7 +278,7 @@ export default class componentName extends Component {
     try {
       let downloadSizeInBits = 12000000;
       let startTime = new Date().getTime();
-      await fetch('https://urbangraffitilogin.com/');
+      await fetch(BASEURL);
       let endTime = new Date().getTime();
       let duration = (endTime - startTime) / 1000;
       speed = downloadSizeInBits / (1024 * 1024 * duration);
@@ -1194,7 +1194,8 @@ export default class componentName extends Component {
   open_map = async () => {
     let new_params = {};
     await AsyncStorage.setItem('current_params', JSON.stringify(new_params));
-    this.props.navigation.navigate('Home');
+
+    this.props.navigation.navigate('Home', { markers: this.state.markers });
   };
 
   disconnect_user = async () => {

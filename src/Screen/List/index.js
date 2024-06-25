@@ -29,7 +29,7 @@ import API, { BASEURL } from '../../utils/api';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import Modal from 'react-native-modal';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -76,8 +76,10 @@ export default class componentName extends Component {
     };
   }
   async componentDidMount() {
+    console.log('----------Kaivan componentDidMount-----------');
     //BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
     console.log('URL----------', BASEURL);
+    //this.drawer._root.close();
     BackHandler.addEventListener('backPress', this.handleBackButton);
 
     let new_params = await AsyncStorage.getItem('current_params');
@@ -118,9 +120,10 @@ export default class componentName extends Component {
       }
     });
 
-    this.firebase_func();
+    // this.firebase_func();
 
-    this._getLocationAsync();
+    //this._getLocationAsync();
+    this._getOrders();
     this.set_page();
 
     const { navigation } = this.props;
@@ -176,7 +179,7 @@ export default class componentName extends Component {
       //const { params } = this.props.navigation.state;
       if (this.state.new_params) {
         if (this.state.new_params.update == '1') {
-          this._getLocationAsync();
+          this._getOrders();
           this.reload_orders('page');
         }
 
@@ -196,72 +199,67 @@ export default class componentName extends Component {
     this.setState({ tech_connected: tech_connected_ });
   };
 
-  firebase_func = async () => {
-    const user_id = await AsyncStorage.getItem('user_id');
+  // firebase_func = async () => {
+  //   const user_id = await AsyncStorage.getItem('user_id');
 
-    if (!firebase.apps.length) {
-      const firebaseConfig = {
-        apiKey: 'AIzaSyDlrejmHgOm7Cxy9l_F0B7M2V1IkyEtN2Q',
-        authDomain: 'urban-3c6d8.firebaseapp.com',
-        databaseURL: 'https://urban-3c6d8.firebaseio.com',
-        projectId: 'urban-3c6d8',
-        storageBucket: 'urban-3c6d8.appspot.com',
-        messagingSenderId: '1010644563757',
-        appId: '1:1010644563757:web:4bd922a5833d8cf3c785a4',
-        measurementId: 'G-V5SE985CD6',
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-    }
+  //   if (!firebase.apps.length) {
+  //     const firebaseConfig = {
+  //       apiKey: 'AIzaSyDlrejmHgOm7Cxy9l_F0B7M2V1IkyEtN2Q',
+  //       authDomain: 'urban-3c6d8.firebaseapp.com',
+  //       databaseURL: 'https://urban-3c6d8.firebaseio.com',
+  //       projectId: 'urban-3c6d8',
+  //       storageBucket: 'urban-3c6d8.appspot.com',
+  //       messagingSenderId: '1010644563757',
+  //       appId: '1:1010644563757:web:4bd922a5833d8cf3c785a4',
+  //       measurementId: 'G-V5SE985CD6',
+  //     };
+  //     // Initialize Firebase
+  //     firebase.initializeApp(firebaseConfig);
+  //   }
 
-    const tech_connected_ = await AsyncStorage.getItem('tech_connected');
-    if (tech_connected_ == 'true') {
-      firebase
-        .database()
-        .ref('tech_connected/' + user_id)
-        .set({ connected: 'true', user_id: user_id });
-    } else {
-      firebase
-        .database()
-        .ref('tech_connected/' + user_id)
-        .set({ connected: 'false', user_id: user_id });
-    }
+  //   const tech_connected_ = await AsyncStorage.getItem('tech_connected');
+  //   if (tech_connected_ == 'true') {
+  //     firebase
+  //       .database()
+  //       .ref('tech_connected/' + user_id)
+  //       .set({ connected: 'true', user_id: user_id });
+  //   } else {
+  //     firebase
+  //       .database()
+  //       .ref('tech_connected/' + user_id)
+  //       .set({ connected: 'false', user_id: user_id });
+  //   }
 
-    firebase
-      .database()
-      .ref('tech/' + user_id)
-      .on('value', (data) => {
-        this._getOrders();
-      });
-  };
+  //   firebase
+  //     .database()
+  //     .ref('tech/' + user_id)
+  //     .on('value', (data) => {
+  //       this._getOrders();
+  //     });
+  // };
 
   componentWillUnmount() {
     //this.focusListener();
   }
 
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      //console.log("here");
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
+  // _getLocationAsync = async () => {
+  //   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+  //   if (status !== 'granted') {
+  //     //console.log("here");
+  //     this.setState({
+  //       errorMessage: 'Permission to access location was denied',
+  //     });
+  //   }
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-    //console.log(location);
+  //   let location = await Location.getCurrentPositionAsync({});
+  //   this.setState({ location });
+  //   //console.log(location);
 
-    const user_id = await AsyncStorage.getItem('user_id');
-    const token = await AsyncStorage.getItem('userToken');
-    let data_response_new_order = await API.get_info_new_order(user_id, token);
-    let data_response_new_order_save = JSON.stringify(data_response_new_order);
-    if (data_response_new_order_save != '') {
-      await AsyncStorage.setItem('new_order_data', data_response_new_order_save);
-    }
+  //   const user_id = await AsyncStorage.getItem('user_id');
+  //   const token = await AsyncStorage.getItem('userToken');
 
-    this._getOrders();
-  };
+  //   console.log('----------Kaivan In Location-----------');
+  // };
 
   back = async () => {
     let new_params = {};
@@ -945,18 +943,12 @@ export default class componentName extends Component {
 
     try {
       console.log(user_id);
-      data_response = await API.get_orders2(user_id, token, this.state.location.coords.latitude, this.state.location.coords.longitude);
+      data_response = await API.get_orders2(user_id, token);
       let local_order_save = JSON.stringify(data_response);
       await AsyncStorage.setItem('orders_local_3', local_order_save);
     } catch (e) {
+      this.setState({ visible_modal: false });
       console.log('Error', e);
-    }
-
-    let data_response_new_order = await API.get_info_new_order(user_id, token);
-    console.log('data for new:', data_response_new_order.zones);
-    let data_response_new_order_save = JSON.stringify(data_response_new_order);
-    if (data_response_new_order_save != '') {
-      await AsyncStorage.setItem('new_order_data', data_response_new_order_save);
     }
 
     if (data_response) {
@@ -1048,6 +1040,12 @@ export default class componentName extends Component {
     }
     //console.log(c);
 
+    let data_response_new_order = await API.get_info_new_order(user_id, token);
+    console.log('data for new:', data_response_new_order.zones);
+    let data_response_new_order_save = JSON.stringify(data_response_new_order);
+    if (data_response_new_order_save != '') {
+      await AsyncStorage.setItem('new_order_data', data_response_new_order_save);
+    }
     this.setState({ visible_modal: false });
   };
 
@@ -1068,7 +1066,7 @@ export default class componentName extends Component {
     //console.log('local:', local_orders);
     let data_response = '';
     if (local_orders == null) {
-      data_response = await API.get_orders2(user_id, token, this.state.location.coords.latitude, this.state.location.coords.longitude);
+      data_response = await API.get_orders2(user_id, token);
       let local_order_save = JSON.stringify(data_response);
       await AsyncStorage.setItem('orders_local_3', local_order_save);
     } else {
@@ -1164,6 +1162,13 @@ export default class componentName extends Component {
       this.setState({ markers3: [] });
     }
     //console.log(c);
+
+    let data_response_new_order = await API.get_info_new_order(user_id, token);
+    let data_response_new_order_save = JSON.stringify(data_response_new_order);
+    if (data_response_new_order_save != '') {
+      await AsyncStorage.setItem('new_order_data', data_response_new_order_save);
+    }
+
     this.setState({ visible_modal: false });
   };
 
@@ -1200,10 +1205,10 @@ export default class componentName extends Component {
 
   disconnect_user = async () => {
     const user_id = await AsyncStorage.getItem('user_id');
-    firebase
-      .database()
-      .ref('tech_connected/' + user_id)
-      .set({ connected: 'fasle', user_id: user_id });
+    // firebase
+    //   .database()
+    //   .ref('tech_connected/' + user_id)
+    //   .set({ connected: 'fasle', user_id: user_id });
 
     await AsyncStorage.setItem('tech_connected', 'false');
     this.setState({ tech_connected: 'false' });
@@ -1211,10 +1216,10 @@ export default class componentName extends Component {
 
   connect_user = async () => {
     const user_id = await AsyncStorage.getItem('user_id');
-    firebase
-      .database()
-      .ref('tech_connected/' + user_id)
-      .set({ connected: 'true', user_id: user_id });
+    // firebase
+    //   .database()
+    //   .ref('tech_connected/' + user_id)
+    //   .set({ connected: 'true', user_id: user_id });
 
     await AsyncStorage.setItem('tech_connected', 'true');
     this.setState({ tech_connected: 'true' });

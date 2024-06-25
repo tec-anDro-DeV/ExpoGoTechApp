@@ -5,7 +5,6 @@ import Texts from '../../Component/Text/index';
 import Color from '../../Config/Color';
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
-import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class index extends Component {
@@ -19,7 +18,15 @@ export default class index extends Component {
 
   componentDidMount() {
     this._getdata();
+    // this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    //   this._getdata(); // Reload data every time the screen is focused
+    // });
+    // this._getdata(); // Initial data load
   }
+
+  // componentWillUnmount() {
+  //   this._unsubscribe(); // Cleanup the event listener
+  // }
 
   _getdata = async () => {
     console.log('enter get data');
@@ -32,17 +39,15 @@ export default class index extends Component {
   }
 
   _logout = async () => {
-    const user_id = await AsyncStorage.getItem('user_id');
-    firebase
-      .database()
-      .ref('tech_connected/' + user_id)
-      .set({ connected: 'false', user_id: user_id });
     try {
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('userName');
       await AsyncStorage.removeItem('user_id');
       await AsyncStorage.removeItem('orders_local_3');
-    } catch (exception) {}
+      await AsyncStorage.removeItem('current_params'); // Add any other keys that need to be
+    } catch (exception) {
+      console.log('Error clearing AsyncStorage:', exception);
+    }
     this.props.navigation.navigate('Auth');
   };
 
@@ -114,7 +119,7 @@ export default class index extends Component {
               </TouchableOpacity>
             </View>
             <View style={{ flex: 0.07, width: '100%', textAlign: 'center', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: height - 200 }}>
-              <Text style={{ textAlign: 'center' }}>V 1.20</Text>
+              <Text style={{ textAlign: 'center' }}>V 1.21</Text>
             </View>
           </View>
         </ScrollView>

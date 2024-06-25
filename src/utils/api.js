@@ -25,8 +25,8 @@ class API {
   }
 
   async get_orders2(user_id, token, latitude, longitude) {
-    const query = await fetch(BASEURL + 'API/v1/index.php/work_orders/orders_list2?user_id=' + user_id + '&token=' + token + '&latitude=' + latitude + '&longitude=' + longitude);
-    console.log(query);
+    const query = await fetch(BASEURL + 'API/v1/index.php/work_orders/orders_list2?user_id=' + user_id);
+    console.log('lkjh-------------------', query);
     const data = query.json();
     return data;
   }

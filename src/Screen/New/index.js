@@ -22,7 +22,7 @@ import API from '../../utils/api';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Header from '../../Component/Header/index';
 import Button from '../../Component/Button/index';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import { HideWithKeyboard } from 'react-native-hide-with-keyboard';
 import * as ImagePicker from 'expo-image-picker';
 import Modal from 'react-native-modal';
@@ -734,7 +734,7 @@ export default class componentName extends Component {
     });
   };
   information_save = async () => {
-    this.firebase_func();
+    // this.firebase_func();
     if (this.state.new_status == 'open') {
       let new_params = {
         order_id: this.state.new_order_id,
@@ -749,16 +749,16 @@ export default class componentName extends Component {
     }
   };
 
-  firebase_func = async () => {
-    const user_id = await AsyncStorage.getItem('user_id');
+  // firebase_func = async () => {
+  //   const user_id = await AsyncStorage.getItem('user_id');
 
-    var id = Math.floor(Math.random() * 100);
+  //   var id = Math.floor(Math.random() * 100);
 
-    firebase
-      .database()
-      .ref('tech/' + user_id)
-      .set({ id: id });
-  };
+  //   firebase
+  //     .database()
+  //     .ref('tech/' + user_id)
+  //     .set({ id: id });
+  // };
 
   onValueChange(value, index) {
     this.setState({

@@ -14,7 +14,7 @@ import Modal from 'react-native-modal';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import getDirections from 'react-native-google-maps-directions';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const marker_image = require('../../../assets/graffiti_icon.png');
@@ -128,20 +128,20 @@ export default class Home extends Component {
     });
   }
 
-  firebase_func = async () => {
-    const user_id = await AsyncStorage.getItem('user_id');
+  // firebase_func = async () => {
+  //   const user_id = await AsyncStorage.getItem('user_id');
 
-    firebase
-      .database()
-      .ref('tech/' + user_id)
-      .on('value', (data) => {
-        //this._getOrders();
-        this.setState({
-          forceRefresh: Math.floor(Math.random() * 100),
-          duration: false,
-        });
-      });
-  };
+  //   firebase
+  //     .database()
+  //     .ref('tech/' + user_id)
+  //     .on('value', (data) => {
+  //       //this._getOrders();
+  //       this.setState({
+  //         forceRefresh: Math.floor(Math.random() * 100),
+  //         duration: false,
+  //       });
+  //     });
+  // };
 
   set_page = async () => {
     await AsyncStorage.setItem('page', 'map');
@@ -285,10 +285,10 @@ export default class Home extends Component {
 
   disconnect_user = async () => {
     const user_id = await AsyncStorage.getItem('user_id');
-    firebase
-      .database()
-      .ref('tech_connected/' + user_id)
-      .set({ connected: 'fasle', user_id: user_id });
+    // firebase
+    //   .database()
+    //   .ref('tech_connected/' + user_id)
+    //   .set({ connected: 'fasle', user_id: user_id });
 
     await AsyncStorage.setItem('tech_connected', 'false');
     this.setState({ tech_connected: 'false' });
@@ -296,10 +296,10 @@ export default class Home extends Component {
 
   connect_user = async () => {
     const user_id = await AsyncStorage.getItem('user_id');
-    firebase
-      .database()
-      .ref('tech_connected/' + user_id)
-      .set({ connected: 'true', user_id: user_id });
+    // firebase
+    //   .database()
+    //   .ref('tech_connected/' + user_id)
+    //   .set({ connected: 'true', user_id: user_id });
 
     await AsyncStorage.setItem('tech_connected', 'true');
     this.setState({ tech_connected: 'true' });

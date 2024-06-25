@@ -26,6 +26,8 @@ export default class componentName extends Component {
       spinner: false,
       error: false,
       modal_validate: false,
+      visible_modal: false,
+      text_modal: 'Loading...',
     };
 
     this._signInHandler = this._signInHandler.bind(this);
@@ -33,6 +35,8 @@ export default class componentName extends Component {
 
   _signInHandler = async () => {
     const { username, password } = this.state;
+    this.setState({ text_modal: 'Loading...' });
+    this.setState({ visible_modal: true });
 
     var formData = new FormData();
     formData.append('username', username);
@@ -65,6 +69,7 @@ export default class componentName extends Component {
         await AsyncStorage.setItem('userName', "name ");
         this.props.navigation.navigate('App');
     */
+    this.setState({ visible_modal: false });
   };
 
   cancel_validate = async () => {
@@ -213,6 +218,34 @@ export default class componentName extends Component {
             </Tabs>
           </View>
         </View>
+        <Modal animationType='slide' transparent={true} visible={this.state.visible_modal}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
+              style={{
+                width: 300,
+                height: 150,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+                elevation: 6,
+              }}
+            >
+              <Text style={{ textAlign: 'center', marginTop: 10 }}>{this.state.text_modal}</Text>
+            </View>
+          </View>
+        </Modal>
       </SafeAreaView>
     );
   }

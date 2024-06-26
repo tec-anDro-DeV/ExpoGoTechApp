@@ -75,11 +75,8 @@ export default class componentName extends Component {
       new_params: [],
     };
   }
+
   async componentDidMount() {
-    console.log('----------Kaivan componentDidMount-----------');
-    //BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
-    console.log('URL----------', BASEURL);
-    //this.drawer._root.close();
     BackHandler.addEventListener('backPress', this.handleBackButton);
 
     let new_params = await AsyncStorage.getItem('current_params');
@@ -129,12 +126,13 @@ export default class componentName extends Component {
     const { navigation } = this.props;
 
     this.focusListener = navigation.addListener('focus', async () => {
-      console.log('enter did Focus');
+      console.log('enter did Focus home');
 
       let new_params = await AsyncStorage.getItem('current_params');
       new_params = JSON.parse(new_params);
       console.log(new_params);
       this.setState({ new_params: new_params });
+      this.drawer._root.close();
 
       let speed = 0;
 
@@ -170,7 +168,7 @@ export default class componentName extends Component {
           this.setState({ is_conected: state.isConnected.toString() });
         }
 
-        // this._getOrders();
+        //this._getOrders();
       });
 
       this.set_btn();
@@ -179,7 +177,6 @@ export default class componentName extends Component {
       //const { params } = this.props.navigation.state;
       if (this.state.new_params) {
         if (this.state.new_params.update == '1') {
-          this._getOrders();
           this.reload_orders('page');
         }
 
@@ -239,7 +236,7 @@ export default class componentName extends Component {
   // };
 
   componentWillUnmount() {
-    //this.focusListener();
+    // this.focusListener();
   }
 
   // _getLocationAsync = async () => {
@@ -1054,7 +1051,6 @@ export default class componentName extends Component {
     this.setState({ visible_modal: true });
     const tech_connected_ = await AsyncStorage.getItem('tech_connected');
     this.setState({ tech_connected: tech_connected_ });
-
     const user = await AsyncStorage.getItem('userName');
     this.setState({ username: user });
 

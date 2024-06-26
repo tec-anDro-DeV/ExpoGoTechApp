@@ -18,10 +18,10 @@ export default class index extends Component {
 
   componentDidMount() {
     this._getdata();
-    // this._unsubscribe = this.props.navigation.addListener('focus', () => {
-    //   this._getdata(); // Reload data every time the screen is focused
-    // });
-    // this._getdata(); // Initial data load
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this._getdata(); // Reload data every time the screen is focused
+    });
+    this._getdata(); // Initial data load
   }
 
   // componentWillUnmount() {

@@ -62,6 +62,10 @@ export default class componentName extends Component {
       await AsyncStorage.setItem('userName', data_response.name);
       await AsyncStorage.setItem('user_id', data_response.user_id);
       await AsyncStorage.setItem('tech_connected', 'true');
+      let new_params = {
+        update: '1',
+      };
+      await AsyncStorage.setItem('current_params', JSON.stringify(new_params));
       this.props.navigation.navigate('App');
     }
     /*

@@ -119,7 +119,7 @@ export default class index extends Component {
               </TouchableOpacity>
             </View>
             <View style={{ flex: 0.07, width: '100%', textAlign: 'center', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: height - 200 }}>
-              <Text style={{ textAlign: 'center' }}>V 1.21</Text>
+              <Text style={{ textAlign: 'center', color: 'black' }}>V 1.22</Text>
             </View>
           </View>
         </ScrollView>

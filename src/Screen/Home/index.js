@@ -98,7 +98,7 @@ export default class Home extends Component {
 
     // this._getOrders();
     this.set_page();
-
+    console.log('this.props.route.params.markers-----------', this.props.route.params.markers);
     const { navigation } = this.props;
     this.setState({ markers: this.props.route.params.markers });
     const tech_connected_ = await AsyncStorage.getItem('tech_connected');
@@ -116,7 +116,7 @@ export default class Home extends Component {
 
       if (this.state.new_params) {
         if (this.state.new_params.update == '1') {
-          // this._getOrders();
+          this._getOrders();
           this.setState({
             forceRefresh: Math.floor(Math.random() * 100),
             duration: false,
@@ -147,50 +147,50 @@ export default class Home extends Component {
     await AsyncStorage.setItem('page', 'map');
   };
 
-  // _getOrders = async () => {
-  //   //console.log("test1");
-  //   this.setState({ text_modal: 'Updating ...' });
-  //   this.setState({ visible_modal: true });
-  //   const tech_connected_ = await AsyncStorage.getItem('tech_connected');
-  //   this.setState({ tech_connected: tech_connected_ });
+  _getOrders = async () => {
+    //console.log("test1");
+    this.setState({ text_modal: 'Updating ...' });
+    this.setState({ visible_modal: true });
+    const tech_connected_ = await AsyncStorage.getItem('tech_connected');
+    this.setState({ tech_connected: tech_connected_ });
 
-  //   const user = await AsyncStorage.getItem('userName');
-  //   this.setState({ username: user });
+    const user = await AsyncStorage.getItem('userName');
+    this.setState({ username: user });
 
-  //   const user_id = await AsyncStorage.getItem('user_id');
-  //   const token = await AsyncStorage.getItem('userToken');
-  //   let data_response = await API.get_orders2(user_id, token, 0, 0);
-  //   //console.log("test");
-  //   //console.log(user_id);
-  //   //console.log(token);
-  //   //console.log(data_response);
+    const user_id = await AsyncStorage.getItem('user_id');
+    const token = await AsyncStorage.getItem('userToken');
+    let data_response = await API.get_orders2(user_id, token, 0, 0);
+    //console.log("test");
+    //console.log(user_id);
+    //console.log(token);
+    //console.log(data_response);
 
-  //   let a;
-  //   a = this.state.markers.splice();
-  //   let i = 0;
-  //   if (data_response.orders) {
-  //     for (let userObject of data_response.orders) {
-  //       //console.log(userObject.address);
+    let a;
+    a = this.state.markers.splice();
+    let i = 0;
+    if (data_response.orders) {
+      for (let userObject of data_response.orders) {
+        //console.log(userObject.address);
 
-  //       a[i] = {
-  //         title: userObject.address,
-  //         order_id: userObject.order_id,
-  //         street: userObject.street,
-  //         city: userObject.city,
-  //         coordinates: {
-  //           latitude: Number(userObject.address_lat),
-  //           longitude: Number(userObject.address_long),
-  //         },
-  //       };
-  //       i++;
-  //     }
-  //   }
+        a[i] = {
+          title: userObject.address,
+          order_id: userObject.order_id,
+          street: userObject.street,
+          city: userObject.city,
+          coordinates: {
+            latitude: Number(userObject.address_lat),
+            longitude: Number(userObject.address_long),
+          },
+        };
+        i++;
+      }
+    }
 
-  //   this.setState({ markers: a });
+    this.setState({ markers: a });
 
-  //   //console.log(a);
-  //   this.setState({ visible_modal: false });
-  // };
+    console.log(a);
+    this.setState({ visible_modal: false });
+  };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
